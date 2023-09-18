@@ -1,44 +1,34 @@
-name: generate animation
-
+name: Metrics
 on:
-  # run automatically every 24 hours
-  schedule:
-    - cron: "0 */24 * * *" 
-  
-  # allows to manually run the job at any time
+  # Schedule daily updates
+  schedule: [{ cron: "0 0 * * *" }]
+  # (optional) Run workflow manually
   workflow_dispatch:
-  
-  # run on every push on the master branch
-  push:
-    branches:
-    - main
-    
-  
-
+  # (optional) Run workflow when pushing on master/main
+  push: { branches: ["main"] }
 jobs:
-  generate:
+  github-metrics:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
-    
+    permissions:
+      contents: write
     steps:
-      # generates a snake game from a github user (<github_user_name>) contributions graph, output a svg animation at <svg_out_path>
-      - name: generate github-contribution-grid-snake.svg
-        uses: Platane/snk/svg-only@v3
+      - uses: UniverseFly/metrics@v3.34
         with:
-          github_user_name: ${{ github.repository_owner }}
-          outputs: |
-            dist/github-contribution-grid-snake.svg
-            dist/github-contribution-grid-snake-dark.svg?palette=github-dark
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          
-          
-      # push the content of <build_dir> to a branch
-      # the content will be available at https://raw.githubusercontent.com/<github_user>/<repository>/<target_branch>/<file> , or as github page
-      - name: push github-contribution-grid-snake.svg to the output branch
-        uses: crazy-max/ghaction-github-pages@v3.1.0
-        with:
-          target_branch: output
-          build_dir: dist
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.METRICS_TOKEN }}
+          user: UniverseFly
+          template: classic
+          base: header, activity, community, repositories, metadata
+          config_timezone: America/Chicago
+          plugin_languages: yes
+          plugin_languages_analysis_timeout: 15
+          plugin_languages_analysis_timeout_repositories: 7.5
+          plugin_languages_categories: markup, programming
+          plugin_languages_colors: github
+          plugin_languages_limit: 8
+          plugin_languages_recent_categories: markup, programming
+          plugin_languages_recent_days: 14
+          plugin_languages_recent_load: 300
+          plugin_languages_sections: most-used
+          plugin_languages_threshold: 0%
+          plugin_repositories: yes
+          plugin_repositories_order: featured, pinned, starred, random
