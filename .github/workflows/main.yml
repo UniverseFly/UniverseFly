@@ -22,15 +22,17 @@ jobs:
           config_timezone: America/Chicago
 
           plugin_languages: yes
-          plugin_languages_limit: 6
-          plugin_languages_indepth: yes
-          plugin_languages_sections: recently-used
-          plugin_languages_recent_categories: programming
-          plugin_languages_recent_days: 14
-          plugin_languages_recent_load: 300
+          plugin_languages_skipped: eclpise.jdt.ls
+          plugin_languages_categories: programming
           plugin_languages_details: bytes-size, percentage
-          commits_authoring: Yuxiang Wei, Yuxiang, UniverseFly
+          plugin_languages_colors: github
+          plugin_languages_limit: 6
+          plugin_languages_sections: most-used
+          plugin_languages_threshold: 0%
 
           plugin_repositories: yes
           plugin_repositories_order: pinned, starred, random
           plugin_repositories_pinned: 3
+
+          plugin_isocalendar: yes
+          plugin_isocalendar_duration: half-year
